@@ -11,7 +11,22 @@ from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field, field_serializer, field_validator, model_validator
 
 AdcSample = Annotated[int, Field(strict=True, ge=0, le=4095)]
-Symptom = Annotated[str, Field(pattern=r"^[A-Z][A-Z_]{1,31}$")]
+Symptom = Literal[
+    "CHEST_PAIN",
+    "BREATHLESSNESS",
+    "FEVER",
+    "UNCONSCIOUS",
+    "SEIZURE",
+    "BLEEDING",
+    "DIZZINESS",
+    "VOMITING",
+    "HEADACHE",
+    "ABDOMINAL_PAIN",
+    "WEAKNESS",
+    "CONFUSION",
+    "PALPITATIONS",
+    "SWEATING",
+]
 
 
 class DataMode(str, Enum):

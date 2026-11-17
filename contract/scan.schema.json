@@ -6,9 +6,19 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "event_id", "referral_id", "device_id", "recorded_at", "battery_pct",
-    "data_mode", "triage_state", "trigger_reason", "tinyml_confidence",
-    "patient", "vitals", "ecg_samples", "emg_samples"
+    "event_id",
+    "referral_id",
+    "device_id",
+    "recorded_at",
+    "battery_pct",
+    "data_mode",
+    "triage_state",
+    "trigger_reason",
+    "tinyml_confidence",
+    "patient",
+    "vitals",
+    "ecg_samples",
+    "emg_samples"
   ],
   "properties": {
     "event_id": {
@@ -16,55 +26,166 @@
       "pattern": "^[A-Z][0-9]{2}-[0-9]{10}$",
       "description": "<device_id>-<unix epoch seconds>. Idempotency key for offline re-sync."
     },
-    "referral_id": { "type": "string", "pattern": "^R[0-9]{4}$" },
-    "device_id": { "type": "string", "pattern": "^[A-Z][0-9]{2}$" },
+    "referral_id": {
+      "type": "string",
+      "pattern": "^R[0-9]{4}$"
+    },
+    "device_id": {
+      "type": "string",
+      "pattern": "^[A-Z][0-9]{2}$"
+    },
     "recorded_at": {
       "type": "string",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
       "description": "UTC ISO-8601, second precision, 'Z' suffix."
     },
-    "battery_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
-    "data_mode": { "type": "string", "enum": ["LIVE", "SIMULATED"] },
-    "triage_state": { "type": "string", "enum": ["EMERGENCY", "URGENT", "STABLE"] },
-    "trigger_reason": { "type": "string", "maxLength": 120 },
-    "tinyml_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "battery_pct": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "data_mode": {
+      "type": "string",
+      "enum": [
+        "LIVE",
+        "SIMULATED"
+      ]
+    },
+    "triage_state": {
+      "type": "string",
+      "enum": [
+        "EMERGENCY",
+        "URGENT",
+        "STABLE"
+      ]
+    },
+    "trigger_reason": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "tinyml_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
     "patient": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["age_band", "gender", "symptoms"],
+      "required": [
+        "age_band",
+        "gender",
+        "symptoms"
+      ],
       "properties": {
-        "age_band": { "type": "string", "enum": ["0-5", "6-17", "18-39", "40-59", "60+"] },
-        "gender": { "type": "string", "enum": ["M", "F", "O"] },
+        "age_band": {
+          "type": "string",
+          "enum": [
+            "0-5",
+            "6-17",
+            "18-39",
+            "40-59",
+            "60+"
+          ]
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "M",
+            "F",
+            "O"
+          ]
+        },
         "symptoms": {
           "type": "array",
           "uniqueItems": true,
           "maxItems": 16,
-          "items": { "type": "string", "pattern": "^[A-Z][A-Z_]{1,31}$" }
+          "items": {
+            "type": "string",
+            "enum": [
+              "CHEST_PAIN",
+              "BREATHLESSNESS",
+              "FEVER",
+              "UNCONSCIOUS",
+              "SEIZURE",
+              "BLEEDING",
+              "DIZZINESS",
+              "VOMITING",
+              "HEADACHE",
+              "ABDOMINAL_PAIN",
+              "WEAKNESS",
+              "CONFUSION",
+              "PALPITATIONS",
+              "SWEATING"
+            ]
+          }
         }
       }
     },
     "vitals": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["hr", "spo2", "temp", "gsr", "emg", "sqi_valid"],
+      "required": [
+        "hr",
+        "spo2",
+        "temp",
+        "gsr",
+        "emg",
+        "sqi_valid"
+      ],
       "properties": {
-        "hr":   { "type": "integer", "minimum": 0, "maximum": 300, "description": "bpm (MAX30102)" },
-        "spo2": { "type": "integer", "minimum": 0, "maximum": 100, "description": "% (MAX30102)" },
-        "temp": { "type": "number", "minimum": 25, "maximum": 45, "description": "deg C (MLX90614)" },
-        "gsr":  { "type": "number", "minimum": 0, "description": "microsiemens" },
-        "emg":  { "type": "number", "minimum": 0, "description": "RMS, mV" },
-        "sqi_valid": { "type": "boolean", "description": "Signal-quality index passed" }
+        "hr": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 300,
+          "description": "bpm (MAX30102)"
+        },
+        "spo2": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "% (MAX30102)"
+        },
+        "temp": {
+          "type": "number",
+          "minimum": 25,
+          "maximum": 45,
+          "description": "deg C (MLX90614)"
+        },
+        "gsr": {
+          "type": "number",
+          "minimum": 0,
+          "description": "microsiemens"
+        },
+        "emg": {
+          "type": "number",
+          "minimum": 0,
+          "description": "RMS, mV"
+        },
+        "sqi_valid": {
+          "type": "boolean",
+          "description": "Signal-quality index passed"
+        }
       }
     },
     "ecg_samples": {
-      "type": "array", "maxItems": 2048,
-      "items": { "type": "integer", "minimum": 0, "maximum": 4095 },
+      "type": "array",
+      "maxItems": 2048,
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4095
+      },
       "description": "Raw 12-bit ADC (AD8232)"
     },
     "emg_samples": {
-      "type": "array", "maxItems": 2048,
-      "items": { "type": "integer", "minimum": 0, "maximum": 4095 },
+      "type": "array",
+      "maxItems": 2048,
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4095
+      },
       "description": "Raw 12-bit ADC"
     }
   }
