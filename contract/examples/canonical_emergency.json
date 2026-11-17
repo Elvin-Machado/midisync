@@ -1,0 +1,26 @@
+{
+  "event_id": "K01-1794891900",
+  "referral_id": "R8492",
+  "device_id": "K01",
+  "recorded_at": "2026-11-17T10:35:00Z",
+  "battery_pct": 88,
+  "data_mode": "LIVE",
+  "triage_state": "EMERGENCY",
+  "trigger_reason": "SpO2 < 90% + Chest Pain",
+  "tinyml_confidence": 0.92,
+  "patient": {
+    "age_band": "60+",
+    "gender": "M",
+    "symptoms": ["CHEST_PAIN", "BREATHLESSNESS"]
+  },
+  "vitals": {
+    "hr": 142,
+    "spo2": 84,
+    "temp": 39.2,
+    "gsr": 14.8,
+    "emg": 0.42,
+    "sqi_valid": true
+  },
+  "ecg_samples": [512, 520, 680, 410, 515],
+  "emg_samples": [120, 135, 128, 140, 122]
+}
